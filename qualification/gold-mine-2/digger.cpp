@@ -157,6 +157,31 @@ main(int argc, char const *argv[]) {
             }
         }
 
+        u8 moved = 0;
+        for (u32 b = 0; b < N; ++b) {
+            if (state.cave == b) { continue; }
+
+            u8 idx = tunnels[state.cave][b];
+            if (!idx || state.visited_tunnels[idx]) {
+                continue;
+            }
+            moved = 1;
+
+            search_state next_state = state;
+            next_state.visited_tunnels[idx] = 1;
+            next_state.cave = b;
+            #if TRACE_PATH
+            next_state.path[next_state.path_pos++] = b;
+            #endif
+            if (!next_state.visited_caves[b]) {
+                next_state.score += caves[b];
+                next_state.visited_caves[b] = 1;
+            }
+            fringe.push(next_state);
+        }
+
+        if (moved) { continue; }
+
         for (u32 b = 0; b < N; ++b) {
             if (state.cave == b) { continue; }
 
