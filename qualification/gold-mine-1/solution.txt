@@ -1,0 +1,39 @@
+C1: Gold Mine - Chapter 1
+
+The mine can be thought of as a rooted tree, with one node per cave, the root
+being node 1, and each tunnel corresponding to an edge.
+
+Assuming N>1, Minerva's route will consist of driving along the path from node 1
+to some other node a, drilling a tunnel to some other node b (potentially with
+b=1), and finally driving along the path from node b to node 1. Any given node
+pair (a,b) is valid if and only if no undirected edge is traversed multiple
+times (in other words, the path from node 1 to node a shares no edges in common
+with the path from node b to node 1). For such a path, the total weight of gold
+ore collected is equal to the sum of C values across all nodes which are part of
+at least one of the two paths.
+
+We can observe that a choice of (a,b) is valid if and only if either b=1, or a
+and b lie within the subtrees of different children of node 1. If they were to
+both lie within the subtree of the same child c of node 1, then both paths would
+include the undirected edge between nodes 1 and c, which would be invalid.
+
+We can also observe that the only node which will be part of both paths is node
+1, and that the direction of each path is irrelevant (with both paths
+essentially being interchangeable). If we let F(i) be the sum of C values on the
+path between node 1 and node i, then the total weight of gold ore collected will
+be F(a)+F(b)−C_1.
+
+Let G(i) be the maximum value of F(j) for any node j in node i's subtree
+(including i itself). We can recursively compute the F and G values for all N
+nodes in O(N) time, based on the recurrences F(i)=F(P_i)+C_i (where P_i is node
+i's parent) and G(i) equalling the maximum of F(i) and of G(c) (for each of node
+i's children c).
+
+Putting everything together, if node 1 has fewer than two children, the final
+answer will be G(1), while the answer will otherwise be G(c_1)+G(c_2)−C_1, where
+c_1 and c_2 are the two distinct children of node 1 which yield the largest G
+values. It's also possible to arrive at a similar result without explicitly
+computing F and G separately.
+
+See David Harmeyer's solution video here.
+https://www.youtube.com/watch?v=V1p4ZX-uDM8

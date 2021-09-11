@@ -7,12 +7,12 @@ excavate a system of underground tunnels for access to the ores.
 
 Minerva is a contract miner who spends her days extracting gold ore from
 underground mines across Ontario. One particular gold mine she's contracting for
-consists of NN underground caves, numbered from 1 to N, with cave 1 having an
-exit to the surface. There are also N−1 tunnels running among the caves,
-the ith of which allows one to travel in either direction between caves A_i and
-B_i. Each cave is reachable from cave 1 by a sequence of these tunnels.
+consists of N underground caves, numbered from 1 to N, with cave 1 having an
+exit to the surface. There are also N−1 tunnels running among the caves, the ith
+of which allows one to travel in either direction between caves A_i and B_i.
+Each cave is reachable from cave 1 by a sequence of these tunnels.
 
-Cave ii is known to contain C_i ounces of gold ore. With her trusty dump truck,
+Cave i is known to contain C_i ounces of gold ore. With her trusty dump truck,
 Minerva plans to drive underground starting in cave 1, collect as much gold ore
 as possible, and exit back to the surface through cave 1.
 
