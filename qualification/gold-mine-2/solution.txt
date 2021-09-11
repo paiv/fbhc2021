@@ -1,0 +1,56 @@
+C2: Gold Mine - Chapter 2
+
+As in Chapter 1, the mine can be thought of as a rooted tree, with one node per
+cave, the root being node 1, and each tunnel corresponding to an edge.
+
+If K=0, the answer is C_1. Otherwise, we can think of Minerva's route as
+consisting of any set of K edge-disjoint paths in the tree (that is, with no
+edge shared between multiple paths), with at least one of them including node 1.
+A path including node 1 will implicitly correspond to both the first and last
+portions of her route: we can imagine her starting at node 1 and driving to one
+of the path's endpoints before drilling her first tunnel, and then eventually
+drilling her final tunnel to the path's other endpoint and driving back to node
+1. The remaining K−1 paths more directly correspond to the intermediate portions
+of her route, with her repeatedly drilling to a path's endpoint and then driving
+along that complete path before drilling another tunnel to the next path. The
+total value of such a set of paths is equal to the sum of C values across all
+nodes which are part of at least one path, and we want to find a set of paths
+which maximizes this total.
+
+We'll take a dynamic programming (DP) approach. Let F(i,j,k) be the maximum
+total value of paths if only node i's subtree is considered, such that:
+
+There are j paths contained entirely within that subtree
+
+There's a path with an endpoint at node i (potentially connecting to i's parent)
+available to be extended further if and only if k=1 (defined for 0≤k≤1)
+
+We'll additionally enforce that, if i=1, at least one of the paths must include
+node i. Our final answer will be the maximum of C_1 and of F(1,j,0) (for 1≤j≤K).
+
+Computing F(i,j,k) will require processing ii and its children in a secondary
+level of DP. Let G(i,f,j,k,c) be the maximum total value of paths if only node i
+and its first f children are considered, such that:
+
+There are j paths contained entirely within those nodes
+
+There's a path with an endpoint at node i (potentially connecting to i's parent)
+available to be extended further if and only if k=1 (defined for 0≤k≤1)
+
+There's at least one path connecting i to one of those f children if and only if
+c=1 (defined for 0≤c≤1)
+
+We'll recurse through the tree, computing these values. Once we've computed the
+F values for all children of a node i, we'll be able to compute node i's G
+values. After starting with the base case of G(i,0,0,0,0)=0, we can compute
+G(f,...) for each fth child of node i by combining G(f−1,...) with that child's
+F values, while considering the options of either having or not having a path
+connecting node i and that child. If node i has Z_i children, we can then
+transform G(i,Z_i,...) into F(i,...). Further details around the DP transitions
+involved can be found in the official solution's source code.
+
+Overall, it takes a total of O(NK^2) time to compute all O(NK) relevant DP
+values.
+
+See David Harmeyer's solution video here.
+https://www.youtube.com/watch?v=V1p4ZX-uDM8
