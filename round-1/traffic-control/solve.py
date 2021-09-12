@@ -5,24 +5,13 @@ import sys
 def travis(N, M, A, B):
     ans = 'Impossible'
     lo = N + M - 1
-    if A < lo: return ans
-    if B < lo: return ans
+    if min(A, B) < lo: return ans
     m = [[999] * M for _ in range(N)]
-    m[0][0] = 1
-    m[0][-1] = 1
-    for x in range(1, min(M, N)):
-        m[x-1][x] = 1
-        m[x][x] = 1
-        m[x-1][M-x-1] = 1
-        m[x][M-x-1] = 1
-    if M < N:
-        for x in range(M, N):
-            m[x][0] = 1
-            m[x][-1] = 1
-    else:
-        for x in range(N, M):
-            m[-1][x] = 1
-            m[-1][M-x-1] = 1
+    for y in range(N):
+        m[y][0] = 1
+        m[y][-1] = 1
+    for x in range(M):
+        m[0][x] = 1
     m[-1][-1] = A - lo + 1
     m[-1][0] = B - lo + 1
     ans = ['Possible', *(' '.join(map(str, row)) for row in m)]
