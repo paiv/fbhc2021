@@ -26,49 +26,20 @@ main(int argc, char const *argv[]) {
         n -= q;
     }
 
-    u32 R = 0;
+    u32 ans = 0;
     {
-        u8 *p = buf, state = 0;
-        for (u32 i = 0; i < N; ++i, ++p) {
-            u8 x = *p;
-            if (x == 'X' || x == 'O') {
-                R += (state && x != state);
-                state = x;
-            }
-        }
-    }
-
-    u64 S = 0;
-    {
+        u8 *p = buf;
         u8 state = 0;
-        for (u32 i = 0, r = R; i < N; ++i) {
-            for (u32 j = i; j < N; ++j) {
-                u8 x = buf[j];
-                if (x == 'X' || x == 'O') {
-                    r -= (state && state != x);
-                    state = x;
-                    break;
-                }
-            }
-            S += r;
-        }
-    }
-
-    u32 ans = S;
-    {
-        u8 *p = buf + N;
-        for (u64 i = 0, r = S; i < N; ++i, --p) {
-            u8 x = *(p - 1);
+        u32 ix = 0;
+        for (u32 i = 0; i < N; ++i) {
+            u8 x = *p++;
             if (x == 'X' || x == 'O') {
-                for (u8* q = p - 1; q != buf; --q) {
-                    u8 y = *(q - 1);
-                    if (y == 'X' || y == 'O') {
-                        r -= (x != y) * (q - buf);
-                        break;
-                    }
+                if (state && state != x) {
+                    ans = (ans + u64(N - i) * (ix + 1)) % M;
                 }
+                state = x;
+                ix = i;
             }
-            ans = (ans + r) % M;
         }
     }
 

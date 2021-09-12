@@ -6,8 +6,8 @@ import sys
 
 def timmy(S):
     def ipack(x): return x.to_bytes(4, 'little')
-    data = ipack(len(S))
-    data += S.encode()
+    data = S.encode()
+    data = ipack(len(data)) + data
     p = subprocess.run(['./timmy'], input=data, stdout=subprocess.PIPE)
     ans, = struct.unpack('<I', p.stdout)
     return ans
