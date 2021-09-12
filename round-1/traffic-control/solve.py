@@ -6,12 +6,7 @@ def travis(N, M, A, B):
     ans = 'Impossible'
     lo = N + M - 1
     if min(A, B) < lo: return ans
-    m = [[999] * M for _ in range(N)]
-    for y in range(N):
-        m[y][0] = 1
-        m[y][-1] = 1
-    for x in range(M):
-        m[0][x] = 1
+    m = [[1] * M for _ in range(N)]
     m[-1][-1] = A - lo + 1
     m[-1][0] = B - lo + 1
     ans = ['Possible', *(' '.join(map(str, row)) for row in m)]
